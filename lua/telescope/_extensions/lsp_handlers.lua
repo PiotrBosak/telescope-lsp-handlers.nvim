@@ -114,6 +114,12 @@ local function get_correct_result(result1, result2)
   return type(result1) == 'table' and result1 or result2
 end
 
+local take_first_part = function(word, delimiter)
+  parts = {}
+  for part in word:gmatch(delimiter) do table.insert(parts, part) end
+  return parts[1]
+
+end
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
@@ -121,16 +127,16 @@ local function location_handler(prompt_title, opts)
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cWORD>')
       local cleaned = current_word
-      :gsub("{","")
-      :gsub("}","")
-      :gsub("[[]", "")
-      :gsub("[]]", "")
-      :gsub("%(","")
-      :gsub("%)","")
-      :gsub("%.","")
-      :gsub(",","")
-      :gsub("<","")
-      :gsub(">","")
+      cleaned = take_first_part(cleaned, "{")
+      cleaned = take_first_part(cleaned, "]")
+      cleaned = take_first_part(cleaned, "[[]")
+      cleaned = take_first_part(cleaned, "[]]")
+      cleaned = take_first_part(cleaned, "%(")
+      cleaned = take_first_part(cleaned, "%)")
+      cleaned = take_first_part(cleaned, "%.")
+      cleaned = take_first_part(cleaned, "<")
+      cleaned = take_first_part(cleaned, "<")
+      cleaned = take_first_part(cleaned, ">")
       require('telescope.builtin').live_grep({
         default_text = cleaned
       })
