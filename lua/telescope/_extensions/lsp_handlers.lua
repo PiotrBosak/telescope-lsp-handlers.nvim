@@ -116,7 +116,7 @@ end
 
 local take_first_part = function(word, delimiter)
   local parts = {}
-  for part in word:gmatch(delimiter) do table.insert(parts, part) end
+  for part in string.gmatch(word,delimiter) do table.insert(parts, part) end
   return parts[1]
 end
 local function location_handler(prompt_title, opts)
