@@ -129,6 +129,7 @@ function filter_imports(value)
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
+    opts.telescope.path_display = "truncate"
     opts.telescope.layout_strategy = "vertical"
     opts.telescope.layout_config = {
           height = vim.o.lines, -- maximally available lines
