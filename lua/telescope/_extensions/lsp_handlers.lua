@@ -114,9 +114,9 @@ local function get_correct_result(result1, result2)
   return type(result1) == 'table' and result1 or result2
 end
 
-local take_first_part = function(word, delimiter)
+local take_first_part = function(whole, delimiter)
   local parts = {}
-  for part in string.gmatch(word,delimiter) do table.insert(parts, part) end
+  for part in string.gmatch(whole,delimiter) do table.insert(parts, part) end
   return parts[1]
 end
 local function location_handler(prompt_title, opts)
