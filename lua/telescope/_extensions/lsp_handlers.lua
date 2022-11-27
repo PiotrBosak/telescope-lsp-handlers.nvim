@@ -133,7 +133,14 @@ local function location_handler(prompt_title, opts)
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cword>')
       require('telescope.builtin').grep_string({
-        search = current_word
+        search = current_word,
+        layout_strategy = "vertical",
+        layout_config = {
+          height = vim.o.lines, -- maximally available lines
+          width = vim.o.columns, -- maximally available columns
+          prompt_position = "top",
+          preview_height = 0.5,
+    },
       })
 			return
 		end
