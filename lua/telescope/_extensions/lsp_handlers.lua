@@ -129,7 +129,13 @@ function filter_imports(value)
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
-
+    opts.telescope.layout_strategy = "vertical"
+    opts.telescope.layout_config = {
+          height = vim.o.lines, -- maximally available lines
+          width = vim.o.columns, -- maximally available columns
+          prompt_position = "bottom",
+          preview_height = 0.6, -- 60% of available lines
+        }
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cword>')
       require('telescope.builtin').grep_string({
@@ -138,9 +144,9 @@ local function location_handler(prompt_title, opts)
         layout_config = {
           height = vim.o.lines, -- maximally available lines
           width = vim.o.columns, -- maximally available columns
-          prompt_position = "top",
-          preview_height = 0.5,
-    },
+          prompt_position = "bottom",
+          preview_height = 0.6, -- 60% of available lines
+        },
       })
 			return
 		end
