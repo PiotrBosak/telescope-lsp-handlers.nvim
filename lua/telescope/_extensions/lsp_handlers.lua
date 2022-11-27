@@ -114,19 +114,6 @@ local function get_correct_result(result1, result2)
   return type(result1) == 'table' and result1 or result2
 end
 
-function dump(o)
-  if type(o) == 'table' then
-    local s = '{ '
-    for k, v in pairs(o) do
-      if type(k) ~= 'number' then k = '"' .. k .. '"' end
-      s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-    end
-    return s .. '} '
-  else
-    return tostring(o)
-  end
-end
-
 filter = function(items, predicate)
   local result = {}
   for _,v in ipairs(items) do
@@ -142,7 +129,6 @@ function filter_imports(value)
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
-    os.execute('tmux-windowizer tests echo ' .. dump(result))
 
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cword>')
@@ -152,17 +138,18 @@ local function location_handler(prompt_title, opts)
 			return
 		end
 
+		local items = lsp_util.locations_to_items(result)
+    items = filter(items, filter_imports)
 		if not vim.tbl_islist(result) then
 			jump_to_location(result)
 			return
 		end
 
-		if #result == 1 then
+		if #items == 1 then
 			jump_to_location(result[1])
 			return
 		end
 
-		local items = lsp_util.locations_to_items(result)
 		find(prompt_title, items, { opts = opts.telescope })
 	end
 end
