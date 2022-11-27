@@ -116,7 +116,9 @@ end
 
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
+    os.execute('tmux-windowizer tests echo nada3')
     local result = get_correct_result(result1, result2)
+    os.execute('tmux-windowizer tests echo nada2')
 
 		if not result or vim.tbl_isempty(result) then
       os.execute('tmux-windowizer tests echo nada')
