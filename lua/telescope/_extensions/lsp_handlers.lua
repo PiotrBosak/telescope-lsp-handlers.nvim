@@ -116,12 +116,10 @@ end
 
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
-    os.execute('tmux-windowizer tests echo nada3')
     local result = get_correct_result(result1, result2)
-    os.execute('tmux-windowizer tests echo nada2')
 
 		if not result or vim.tbl_isempty(result) then
-      os.execute('tmux-windowizer tests echo nada')
+      vim.api.nvim_feedkeys('<space>*', 'n', {})
 			return
 		end
 
@@ -236,12 +234,12 @@ return telescope.register_extension({
 		})
 
 		local handlers = {
-			['textDocument/declaration'] = location_handler('LSP Declarations', opts.location),
-			['textDocument/definition'] = location_handler('LSP Definitions', opts.location),
-			['textDocument/implementation'] = location_handler('LSP Implementations', opts.location),
-			['textDocument/typeDefinition'] = location_handler('LSP Type Definitions', opts.location),
-			['textDocument/references'] = location_handler('LSP References', opts.location),
-			['textDocument/documentSymbol'] = symbol_handler('LSP Document Symbols', opts.symbol),
+			['textDocument/declaration'] = location_handler('LSP Declarations2', opts.location),
+			['textDocument/definition'] = location_handler('LSP Definitions2', opts.location),
+			['textDocument/implementation'] = location_handler('LSP Implementations2', opts.location),
+			['textDocument/typeDefinition'] = location_handler('LSP Type Definitions2', opts.location),
+			['textDocument/references'] = location_handler('LSP References2', opts.location),
+			['textDocument/documentSymbol'] = symbol_handler('LSP Document Symbols2', opts.symbol),
 			['workspace/symbol'] = symbol_handler('LSP Workspace Symbols', opts.symbol),
 			['callHierarchy/incomingCalls'] = call_hierarchy_handler('LSP Incoming Calls', 'from', opts.call_hierarchy),
 			['callHierarchy/outgoingCalls'] = call_hierarchy_handler('LSP Outgoing Calls', 'to', opts.call_hierarchy),
