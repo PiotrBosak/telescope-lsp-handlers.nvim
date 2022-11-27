@@ -114,14 +114,35 @@ local function get_correct_result(result1, result2)
   return type(result1) == 'table' and result1 or result2
 end
 
-local take_first_part = function(whole, delimiter)
-  local parts = {}
-  for part in string.gmatch(word,delimiter) do table.insert(parts, part) end
-  return parts[1]
+function dump(o)
+  if type(o) == 'table' then
+    local s = '{ '
+    for k, v in pairs(o) do
+      if type(k) ~= 'number' then k = '"' .. k .. '"' end
+      s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+    end
+    return s .. '} '
+  else
+    return tostring(o)
+  end
 end
+
+filter = function(items, predicate)
+  local result = {}
+  for _,v in ipairs(items) do
+    if predicate(v) == true then
+      table.insert(result,v)
+    end
+  end
+  return result
+end
+
+function filter_imports(value)
+    return string.match(value.text, 'import') == nil end
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
+    os.execute('tmux-windowizer tests echo ' .. dump(result))
 
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cword>')
