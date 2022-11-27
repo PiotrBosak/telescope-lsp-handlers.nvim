@@ -120,7 +120,17 @@ local function location_handler(prompt_title, opts)
 
 		if not result or vim.tbl_isempty(result) then
       local current_word = vim.call('expand', '<cWORD>')
-      local cleaned = current_word:gsub("{",""):gsub("}",""):gsub("[[]", ""):gsub("[]]", ""):gsub("(",""):gsub(")",""):gsub(".",""):gsub(",",""):gsub("<",""):gsub(">","")
+      local cleaned = current_word
+      :gsub("{","")
+      :gsub("}","")
+      :gsub("[[]", "")
+      :gsub("[]]", "")
+      :gsub("(","")
+      :gsub(")","")
+      :gsub(".","")
+      :gsub(",","")
+      :gsub("<","")
+      :gsub(">","")
       require('telescope.builtin').live_grep({
         default_text = cleaned
       })
