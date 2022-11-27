@@ -115,10 +115,9 @@ local function get_correct_result(result1, result2)
 end
 
 local take_first_part = function(word, delimiter)
-  parts = {}
+  local parts = {}
   for part in word:gmatch(delimiter) do table.insert(parts, part) end
   return parts[1]
-
 end
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
