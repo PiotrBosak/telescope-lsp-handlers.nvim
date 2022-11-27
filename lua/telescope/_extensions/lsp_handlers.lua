@@ -119,7 +119,10 @@ local function location_handler(prompt_title, opts)
     local result = get_correct_result(result1, result2)
 
 		if not result or vim.tbl_isempty(result) then
-      vim.api.nvim_feedkeys('<space>*', 'n', {})
+      local current_word = vim.call('expand', '<cWORD>')
+      require('telescope.builtin').live_grep({
+        default_text = current_word
+      })
 			return
 		end
 
