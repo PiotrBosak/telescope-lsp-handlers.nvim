@@ -116,7 +116,7 @@ end
 
 local take_first_part = function(whole, delimiter)
   local parts = {}
-  for part in string.gmatch(whole,delimiter) do table.insert(parts, part) end
+  for part in string.gmatch(word,delimiter) do table.insert(parts, part) end
   return parts[1]
 end
 local function location_handler(prompt_title, opts)
@@ -124,19 +124,9 @@ local function location_handler(prompt_title, opts)
     local result = get_correct_result(result1, result2)
 
 		if not result or vim.tbl_isempty(result) then
-      local current_word = vim.call('expand', '<cWORD>')
-      local cleaned2 = take_first_part(current_word, "{")
-      -- local cleaned3 = take_first_part(cleaned2, "]")
-      -- local cleaned4 = take_first_part(cleaned3, "[[]")
-      -- local cleaned5 = take_first_part(cleaned4, "[]]")
-      -- local cleaned6 = take_first_part(cleaned5, "%(")
-      -- local cleaned7 = take_first_part(cleaned6, "%)")
-      -- local cleaned8 = take_first_part(cleaned7, "%.")
-      -- local cleaned9= take_first_part(cleaned8, "<")
-      -- local cleaned10 = take_first_part(cleaned9, "<")
-      -- local cleaned11 = take_first_part(cleaned10, ">")
+      local current_word = vim.call('expand', '<cword>')
       require('telescope.builtin').live_grep({
-        default_text = cleaned2
+        default_text = current_word
       })
 			return
 		end
