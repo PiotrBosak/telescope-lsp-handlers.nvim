@@ -154,17 +154,29 @@ local function location_handler(prompt_title, opts)
 
 		local items = lsp_util.locations_to_items(result)
     items = filter(items, filter_imports)
+    local distinct = {}
+    for _,v in ipairs(items) do
+      local present = false
+      for _,e in distinct do
+        if v == e then 
+         present = true 
+      end
+    end
+    if not present then
+      table.insert(distinct,v)
+  end
+
 		if not vim.tbl_islist(result) then
 			jump_to_location(result)
 			return
 		end
 
-		if #items == 1 then
+		if #distinct == 1 then
 			jump_to_location(result[1])
 			return
 		end
 
-		find(prompt_title, items, { opts = opts.telescope })
+		find(prompt_title, distinct, { opts = opts.telescope })
 	end
 end
 
