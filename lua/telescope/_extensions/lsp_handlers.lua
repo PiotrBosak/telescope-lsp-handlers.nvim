@@ -157,7 +157,7 @@ local function location_handler(prompt_title, opts)
     local distinct = {}
     for _,v in ipairs(items) do
       local present = false
-      for _,e in distinct do
+      for _,e in ipairs(distinct) do
         if v == e then 
          present = true 
       end
