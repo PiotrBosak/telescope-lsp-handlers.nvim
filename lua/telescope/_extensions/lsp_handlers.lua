@@ -165,6 +165,7 @@ local function location_handler(prompt_title, opts)
     if not present then
       table.insert(distinct,v)
   end
+end
 
 		if not vim.tbl_islist(result) then
 			jump_to_location(result)
