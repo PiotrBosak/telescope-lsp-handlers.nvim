@@ -125,7 +125,7 @@ filter = function(items, predicate)
 end
 
 function filter_imports(value)
-    return string.match(value.text, 'import') == nil end
+    return string.match(value.text, '^import') == nil or string.match(value.text, '^use') == nil end
 local function location_handler(prompt_title, opts)
 	return function(_, result1, result2, _)
     local result = get_correct_result(result1, result2)
